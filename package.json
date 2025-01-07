@@ -1,0 +1,17 @@
+{
+  "name": "soicalapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i ./static/tailwind/src.css -o ./static/tailwind/src_output.css",
+    "watch": "npx tailwindcss -i ./static/tailwind/src.css -o ./static/tailwind/src_output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
+  }
+}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-gray-200">
+        <div class="h-auto w-[50%] bg-blue-500 shadow-lg rounded-sm overflow-hidden flex flex-col items-center">
+            <h1 class="text-center font-bold text-3xl py-2 bg-black text-white w-full">{{ profile.user.username }}</h1>
+            <div class="flex-1 mt-1 overflow-hidden rounded-full flex justify-center items-center h-64 w-64">
+                <img src="{{ profile.photo.url }}" alt="" class="h-64 w-64">
+            </div>
+            <div class="flex flex-col justify-center items-center my-2 space-y-5">
+                <ul class="flex space-x-2 list-none">
+                    <li>
+                        <a href="{% url 'index' %}" class="bg-green-400 p-1 rounded-sm">Back</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'edit_profile' request.user.my_profile.id %}"
+                           class="bg-yellow-800 p-1 rounded-sm">Edit</a>
+                    </li>
+                </ul>
+                <p>
+                    <a href="{% url 'change_password' %}" class="bg-red-800 p-1 rounded-sm">Change password</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

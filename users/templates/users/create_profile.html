@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block title %}Create profile{% endblock %}
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-gray-200">
+        <form method="POST"
+              autocomplete="off"
+              enctype="multipart/form-data"
+              class="bg-blue-500 rounded-sm h-auto w-[34%] overflow-hidden">
+            <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                <p class="text-xl">Create profile</p>
+            </div>
+            {% csrf_token %}
+            <div class="flex flex-col justify-center items-center">
+                {% for field in form %}
+                    <div class="flex flex-col p-2 w-[70%]">
+                        {{ field.name }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Create profile</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

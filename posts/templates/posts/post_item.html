@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}{{ post_item.title|truncatewords:3 }}{% endblock %}
+{% block body %}
+    <div class="w-full min-h-screen flex justify-center items-center bg-gray-200">
+        <div class="h-auto w-[50%] border border-blue-500 shadow-lg rounded-sm overflow-hidden flex flex-col items-center my-3">
+            <p class="text-3xl font-bold text-start p-1 w-full bg-black text-white">{{ post_item.title }}</p>
+            <div class="flex-1 overflow-hidden flex justify-center items-center">
+                <img src="{{ post_item.photo.url }}" alt="">
+            </div>
+            <ul class="w-full list-none flex space-x-3 px-1 mt-1">
+                <li class="flex items-center justify-center cursor-pointer border-blue-500 hover:border">
+                    <p class="font-bold text-xl">{{ post_item.viewers }}</p>
+                    <a href="">
+                        <img src="{% static 'images/viewers.png' %}"
+                             alt=""
+                             class="h-10 w-10 text-blue-500">
+                    </a>
+                </li>
+                <li class=" flex items-center justify-center cursor-pointer border-blue-500 hover:border"
+                    onclick>
+                    <p class="font-bold text-xl">{{ post_item.likes.count }}</p>
+                    <form action="{% url 'like_post' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                        <button type="submit"  id="{{ post_item.id }}">
+                            <img src="{% static 'images/like.png' %}"
+                                 alt=""
+                                 class="h-10 w-10 text-blue-500">
+                        </button>
+                    </form>
+                </li>
+                <li class="flex items-center justify-center cursor-pointer border-blue-500 hover:border">
+                    <p class="font-bold text-xl">{{ post_item.dislikes.count }}</p>
+                    <form action="{% url 'dislike_post' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                        <button type="submit"  id="{{ post_item.id }}">
+                            <img src="{% static 'images/dislike.png' %}"
+                                 alt=""
+                                 class="h-10 w-10 text-blue-500">
+                        </button>
+                    </form>
+                </li>
+                <li class="flex items-center justify-center cursor-pointer border-blue-500 hover:border">
+                    <p class="font-bold text-xl">{{ post_item.bookmark.count }}</p>
+                    <form action="{% url 'bookmark_post' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                        <button type="submit"  id="{{ post_item.id }}">
+                            <img src="{% static 'images/bookmark.png' %}"
+                                 alt=""
+                                 class="h-10 w-10 text-blue-500">
+                        </button>
+                    </form>
+                </li>
+                <li class="flex items-center justify-center cursor-pointer border-blue-500 hover:border">
+                    <p class="font-bold text-xl">10</p>
+                    <a href="">
+                        <img src="{% static 'images/commet.png' %}"
+                             alt=""
+                             class="h-10 w-10  text-blue-500">
+                    </a>
+                </li>
+            </ul>
+            <p class="text-lg text-start p-1 w-full">{{ post_item.caption }}</p>
+            <div class="flex items-center w-full space-x-3">
+                <div class="h-10 w-10 rounded-full overflow-hidden flex justify-center items-center">
+                    {% if post_item.user.my_profile.photo %}
+                        <img src="{{ post_item.user.my_profile.photo.url }}"
+                             alt=""
+                             class="rounded-full h-8 w-8">
+                    {% else %}
+                        <img src="{% static 'images/profile_pic.png' %}"
+                             class="h-8 w-8 rounded-full"
+                             alt="">
+                    {% endif %}
+                </div>
+                <p class="font-bold ">{{ post_item.user.username }}</p>
+            </div>
+            <div class="flex justify-end w-full p-1">
+                <button class="rounded-sm p-1 bg-blue-500 text-black" onclick=showComment()>Comment</button>
+            </div>
+            <form method="POST"
+                  autocomplete="off"
+                  id="comment-form"
+                  class="hidden bg-blue-500 rounded-sm h-44 w-[80%] overflow-hidden">
+                <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                    <p class="text-xl">Make comment</p>
+                </div>
+                {% csrf_token %}
+                <div class="flex justify-between items-center p-1">
+                    <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                    {% for field in comment_form %}
+                        <div class="flex p-2 w-full">
+                            {{ field.name }}
+                            {{ field | add_class:"p-1 h-24 rounded-sm border border-gray-300 w-full" }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Comment</button>
+                </div>
+            </form>
+            {% if comments %}
+                <hr class="border-1 border-black">
+                <br>
+                <ul class="my-2 list-none flex flex-col w-full h-auto">
+                    {% for comment in comments %}
+                        <li class='rounded-sm border border-black shadow-orange-300 p-2 w-[70%] {% if request.user == comment.user %}self-end bg-blue-300{% endif %}'>
+                            <div class="flex items-center space-x-1">
+                                <div class=" h-8 w-8 rounded-full overflow-hidden">
+                                    {% if comment.user.my_profile.photo %}
+                                        <img src="{{ comment.user.my_profile.photo.url }}" class="h-8 w-8" alt="">
+                                    {% else %}
+                                        <img src="{% static 'images/profile_pic.png' %}" class="h-8 w-8" alt="">
+                                    {% endif %}
+                                </div>
+                                <p class="font-bold text-sm">{{ comment.user.username }}</p>
+                            </div>
+                            <p>{{ comment.body }}</p>
+                            <p class="text-sm">{{ comment.created_at }}</p>
+                            <!--  -->
+                            <form method="POST"
+                                  autocomplete="off"
+                                  id="replay-form-{{ comment.id }}"
+                                  class="hidden bg-blue-500 rounded-sm h-44 w-[80%] overflow-hidden">
+                                <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                                    <p class="text-xl">Reply</p>
+                                </div>
+                                {% csrf_token %}
+                                <div class="flex justify-between items-center p-1">
+                                    <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    {% for field in replay_form %}
+                                        <div class="flex p-2 w-full">
+                                            {{ field.name }}
+                                            {{ field | add_class:"p-1 h-24 rounded-sm border border-gray-300 w-full" }}
+                                        </div>
+                                    {% endfor %}
+                                    <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Reply</button>
+                                </div>
+                            </form>
+                            <button onclick="showReplyForm('{{ comment.id }}')"
+                                    class="self-end bg-black text-white rounded-sm p-1 mt-1">Replay</button>
+                            <br>
+                            <!--  -->
+                            {% if comment.replays.exists %}
+                                <br>
+                                <ul class="list-none flex flex-col justify-end w-full">
+                                    {% for replay in comment.replays.all %}
+                                        <li class="rounded-lg bg-slate-300 p-1 w-[70%] self-end">
+                                            <div class="flex space-x-1">
+                                                <div class="h-7 w-7 rounded-full overflow-hidden">
+                                                    {% if replay.user.my_profile.photo %}
+                                                        <img src="{{ replay.user.my_profile.photo.url }}" alt="" class="h-7 w-7">
+                                                    {% else %}
+                                                        <img src="{% static 'images/profile_pic.png' %}" alt="" class="h-7 w-7">
+                                                    {% endif %}
+                                                </div>
+                                                <p class="text-sm font-bold">{{ replay.user.username }}</p>
+                                            </div>
+                                            <p>{{ replay.body }}</p>
+                                            <p class="font-thin text-xs">{{ replay.created_at }}</p>
+                                        </li>
+                                        <br>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                            {% endif %}
+                        </li>
+                        <br>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        function showComment(){
+            console.log("The comment button was clicked...")
+            var commentForm = document.getElementById("comment-form")
+            if (commentForm.classList.contains("hidden")){
+                commentForm.classList.remove("hidden");
+            }else{
+                commentForm.classList.add("hidden");
+            }
+            
+        }
+
+        function showReplyForm(formId){
+            console.log("The replay button was clicked")
+            var formToShow = document.getElementById(`replay-form-${formId}`)
+            if (formToShow.classList.contains("hidden")){
+                formToShow.classList.remove("hidden");
+            }else{
+                formToShow.classList.add("hidden");
+            }
+            console.log(formToShow)
+        }
+        
+    </script>
+{% endblock %}

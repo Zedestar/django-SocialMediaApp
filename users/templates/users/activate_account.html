@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Activate account{% endblock %}
+{% block body %}
+    Hi {{ user.username }},
+    <br>
+    <br>
+    Please click the link below to confirm your registration:
+    <br>
+    <br>
+    <a href="{{ protocol }}://{{ domain }}/users/activate/{{ uid }}/token/{{ token }}/">Activate your account</a>
+    <br>
+    <br>
+    If the above link doesn't work, copy and paste this into your browser:
+    <br>
+    <br>
+    {{ protocol }}://{{ domain }}/users/activate/{{ uid }}/token/{{ token }}/
+{% endblock %}
