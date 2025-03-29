@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
-    "chattings.apps.ChattingsConfig",
     "widget_tweaks",
     "django.contrib.admin",
     "django.contrib.auth",
