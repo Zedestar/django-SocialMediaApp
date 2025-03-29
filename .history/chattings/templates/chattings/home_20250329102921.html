@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+    home
+{% endblock title %}
+{% block body %}
+    <h1>THis is the home for chattings</h1>
+    <br>
+    <ul>
+        {% for room in rooms %}
+            <li class="m-8 p-5 border-2 border-gray-300 rounded-lg shadow-lg bg-teal-300">
+                <span>{{ roon.host }}</span>
+                <a href="{% url 'chattings_room' room.id %}" class="font-bold text-lg">{{ room.name }}</a>
+                <p>{{ room.topic }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock body %}

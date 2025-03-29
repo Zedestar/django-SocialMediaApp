@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Create room{% endblock %}
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-gray-200">
+        <form method="POST"
+              autocomplete="off"
+              enctype="multipart/form-data"
+              class="bg-blue-500 rounded-sm h-auto w-[40%] overflow-hidden">
+            <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                <p class="text-xl">Create a room</p>
+            </div>
+            {% csrf_token %}
+            <div class="flex flex-col justify-center items-center w-full">
+                <div class="flex flex-col space-y-1 w-[80%]">
+                    {% for field in form %}
+                        <div class="flex flex-col p-2">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field|add_class:"p-1 rounded-sm border border-gray-300 w-full" }}
+                            {% if field.errors %}<span class="text-red-500">{{ field.errors }}</span>{% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Create room</button>
+            </div>
+            <a href="{% url 'index' %}" class="text-center block mb-1">Or, I will create later</a>
+        </form>
+    </div>
+{% endblock %}

@@ -11,8 +11,4 @@ def home(request):
 
 
 def room(request, pk):
-    room = Room.objects.get(id=pk)
-    context = {
-        "room":room
-    }
-    return render(request, 'chattings/room.html', context=context)
+    return render(request, 'chattings/room.html')

@@ -1,0 +1,23 @@
+from django.db import models
+from django.conf import settings
+
+# Create your models here.
+
+
+class Room(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
+
+
+
+class Message(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="messages")
+    room = models.ForeignKey(Room, related_name="messages", on_delete=models.PROTECT)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=true)
+    updated_at = models.DateTimeField(auto_now=True)
