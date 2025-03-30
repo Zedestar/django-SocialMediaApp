@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+    home
+{% endblock title %}
+{% block body %}
+    <div class="flex justify-between items-center bg-green-500 p-2 my-2 rounded-md shadow-lg">
+        <a href="#" class="bg-blue-500 text-white p-2 rounded-md">Chatting rooms</a>
+        <a href="{% url 'chattings_create_room' %}"
+           class="bg-blue-500 text-white p-2 rounded-md">Create a room</a>
+    </div>
+    <div class="flex justify-between items-center p-2">
+        <div class="w-1/3">
+            <!-- Fixed width to 1/3 -->
+            <h3>Browse Topic</h3>
+            <ul>
+                {% for topic in topics %}
+                    <li>
+                        <a href="">
+                            <span>{{ topic.name }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="flex-1">
+            <!-- Takes the remaining space -->
+            <h3>Rooms</h3>
+            <ul>
+                {% for room in rooms %}
+                    <li class="w-10/12 my-2 rounded-lg shadow-lg  flex flex-col">
+                        <div class="flex space-x-2 items-center p-2">
+                            <img src="{{ room.host.profile.image.url }}"
+                                 alt="Profile Image"
+                                 class="w-10 h-10 rounded-full">
+                            <span class="text-gray-500 text-sm">{{ room.host.username }}</span>
+                        </div>
+                        <a href="{% url 'chattings_room' room.id %}" class="font-bold text-lg">{{ room.name }}</a>
+                        <p>{{ room.topic }}</p>
+                        <div class="flex justify-between items-center p-2">
+                            <div></div>
+                            <div>
+                                <a href="{% url 'chatting_delete_room' room.id %}" class="text-red-500">Delete</a>
+                                <a href="{% url 'chatting_update_room' room.id %}">Edit</a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock body %}

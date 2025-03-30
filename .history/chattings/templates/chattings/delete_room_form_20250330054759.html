@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Delete room{% endblock %}
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-gray-200">
+        <form method="POST"
+              autocomplete="off"
+              enctype="multipart/form-data"
+              class="bg-blue-500 rounded-sm h-auto w-[40%] overflow-hidden">
+            <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                <p class="text-xl">Delete room</p>
+            </div>
+            {% csrf_token %}
+            <div>
+                <p>Are you sure you want to delete the room "{{ room.name }}"?</p>
+            </div>
+            <div class="flex flex-col justify-center items-center w-full">
+                <div class="flex flex-col space-y-1 w-[80%]"></div>
+                <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Delete room</button>
+            </div>
+            <a href="{% url 'index' %}" class="text-center block mb-1">delete later</a>
+        </form>
+    </div>
+{% endblock %}
