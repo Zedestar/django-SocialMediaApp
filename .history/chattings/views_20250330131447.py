@@ -3,7 +3,7 @@ from .models import Room, Topic
 from .forms import RoomForm
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.db.models import F, Q, Count
+from django.db.models import F, Q
 
 # Create your views here.
 
@@ -21,7 +21,7 @@ def home(request):
        
         
     
-    room_count = rooms.count()
+    room_count = room.count()
     topics = Topic.objects.all()
     context = {'rooms': rooms, 'topics': topics, 'search':room_search_Query, 'room_count': room_count}
     return render(request, 'chattings/home.html', context=context)
