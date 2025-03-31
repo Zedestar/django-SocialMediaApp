@@ -57,10 +57,10 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-LOGIN_URL = "login"  
-LOGIN_REDIRECT_URL = "index"  
-LOGOUT_REDIRECT_URL = "login" 
+LOGIN_URL = "logout"
+LOGIN_REDIRECT_URL = "index/"
 
+LOGOUT_REDIRECT_URL = "login"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

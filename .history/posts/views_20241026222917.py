@@ -127,7 +127,3 @@ def bookmark_post(request):
     else:
         post.bookmark.add(request.user)
     return redirect("post_item", post.slug)
-
-
-###### TODO
-# Creating functionality for view my bookmarked post and likes and well as disliked posts

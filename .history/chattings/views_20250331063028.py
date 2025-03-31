@@ -29,12 +29,7 @@ def home(request):
     
     room_count = rooms.count()
     topics = Topic.objects.all()
-    context = {
-        'rooms': rooms, 
-        'topics': topics, 
-        'search':room_search_Query, 
-        'room_count': room_count
-        }
+    context = {'rooms': rooms, 'topics': topics, 'search':room_search_Query, 'room_count': room_count}
     return render(request, 'chattings/home.html', context=context)
 
 
@@ -59,9 +54,7 @@ def create_room(request):
                 messages.error(request, error)
     else:
         form = RoomForm()
-    context = {
-        'form': form
-        }
+    context = {'form': form}
     return render(request, 'chattings/create_room_form.html', context=context)
 
 
@@ -90,15 +83,12 @@ def update_room(request, pk):
 
 
 def delete_room(request, pk):
+    
     room = Room.objects.get(id=pk)
-    if request.user!= room.host:
-        messages.error(request, 'You are not allowed to delete this room')
-        return redirect('chattings_home')
-    else:
-        if request.method == "POST":
-            room.delete()
-            messages.success(request, "Room deleted SUccessfully")
-            return redirect("chattings_home")
+    if request.method == "POST":
+        room.delete()
+        messages.success(request, "Room deleted SUccessfully")
+        return redirect("chattings_home")
     context = {
         "room": room,
     }
