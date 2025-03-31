@@ -54,17 +54,16 @@ def room(request, pk):
                 messages.success(request, "message created successfully")
             else:
                 for error in form.errors.values():
-                    messages.error(request, f"{error}")
-        else:
+                    messages.error(request, error)
+        else :# form_type == 'delete_message_form':
             message_to_delete_id = request.POST.get('message_id')
-            if message_to_delete_id:
-                message_to_delete = get_object_or_404(Messages, id=message_to_delete_id)
-                if request.user == message_to_delete.sender:
-                    messages.success(request, f'message "{message_to_delete.content[0:10]}" deleted successfully')
-                    message_to_delete.delete()
-                else:
-                    messages.error(request, "You are not allowed to delete this message")
-                
+            message_to_delete = get_object_or_404(Messages, id=message_to_delete_id)
+            if request.user == message_to_delete.sender:
+                message_to_delete.delete()
+                messages.success(request, f'message "{message_to_delete.content[0:10]}" deleted successfully')
+            else:
+                messages.error(request, "You are not allowed to delete this message")
+            
     else:
         form = MessageForm()
     context = {

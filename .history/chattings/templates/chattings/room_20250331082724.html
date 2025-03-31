@@ -16,25 +16,16 @@
                      class="w-8 h-8 rounded-full inline-block mr-2">
                 <strong>{{ message.sender.username }}</strong>
                 <small class="text-gray-500">{{ message.created_at| timesince }} ago</small>
-                <div class="flex items-center justify-between w-full">
-                    <p>{{ message.content }}</p>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="form_type" value="delete_form">
-                        <input type="hidden" name="message_id" value="{{ message.id }}">
-                        <button type="submit" class="text-red-500">Delete</button>
-                    </form>
-                </div>
+                <p>{{ message.content }}</p>
             </div>
         {% endfor %}
     </div>
     <form method="POST"
           autocomplete="off"
-          class="bg-blue-500 rounded-sm h-52 w-[40%] overflow-hidden">
+          class="bg-blue-500 rounded-sm h-auto w-[40%] overflow-hidden">
         {% csrf_token %}
         <div class="flex justify-center items-center w-full">
             <div class="flex flex-col space-y-1 w-[80%]">
-                <input type="hidden" name="form_type" value="message_form">
                 {% for field in form %}
                     <div class="flex flex-col p-2">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -43,7 +34,8 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Send</button>
+            <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Update room</button>
         </div>
+        <a href="{{ request.META.HTTP_REFERER }}" class="text-center block mb-1">Go back</a>
     </form>
 {% endblock body %}

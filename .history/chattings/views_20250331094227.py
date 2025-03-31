@@ -54,7 +54,7 @@ def room(request, pk):
                 messages.success(request, "message created successfully")
             else:
                 for error in form.errors.values():
-                    messages.error(request, f"{error}")
+                    messages.error(request, error)
         else:
             message_to_delete_id = request.POST.get('message_id')
             if message_to_delete_id:

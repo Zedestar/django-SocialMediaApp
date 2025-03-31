@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+    room
+{% endblock title %}
+{% block body %}
+    <h1>This is room room</h1>
+    <br>
+    <p>{{ room.description }}</p>
+    <div class="message-wrapper bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+        <h2 class="text-lg font-semibold text-gray-700">Messages</h2>
+        {% for message in room_messages %}
+            <div class="message bg-white p-3 rounded-lg shadow-sm mb-2">
+                <img src="{{ message.sender.my_profile.photo.url }}"
+                     alt=""
+                     class="w-8 h-8 rounded-full inline-block mr-2">
+                <strong>{{ message.sender.username }}</strong>
+                <small class="text-gray-500">{{ message.created_at| timesince }} ago</small>
+                <p>{{ message.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}

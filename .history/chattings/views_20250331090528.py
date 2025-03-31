@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Room, Topic, Messages
+from django.shortcuts import render
+from .models import Room, Topic
 from .forms import RoomForm, MessageForm
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -44,27 +44,7 @@ def room(request, pk):
     room_messages = room.room_messages.all()
     if request.method == "POST":
         form = MessageForm(request.POST)
-        form_type = request.POST.get('form_type')
-        if form_type == 'message_form':
-            if form.is_valid():
-                message = form.save(commit=False)
-                message.room = room 
-                message.sender = request.user
-                message.save()
-                messages.success(request, "message created successfully")
-            else:
-                for error in form.errors.values():
-                    messages.error(request, f"{error}")
-        else:
-            message_to_delete_id = request.POST.get('message_id')
-            if message_to_delete_id:
-                message_to_delete = get_object_or_404(Messages, id=message_to_delete_id)
-                if request.user == message_to_delete.sender:
-                    messages.success(request, f'message "{message_to_delete.content[0:10]}" deleted successfully')
-                    message_to_delete.delete()
-                else:
-                    messages.error(request, "You are not allowed to delete this message")
-                
+        request
     else:
         form = MessageForm()
     context = {

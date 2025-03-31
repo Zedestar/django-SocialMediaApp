@@ -19,7 +19,6 @@
                 <div class="flex items-center justify-between w-full">
                     <p>{{ message.content }}</p>
                     <form action="" method="POST">
-                        {% csrf_token %}
                         <input type="hidden" name="form_type" value="delete_form">
                         <input type="hidden" name="message_id" value="{{ message.id }}">
                         <button type="submit" class="text-red-500">Delete</button>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    Room
+{% endblock title %}
+{% block body %}
+    <h1 class="text-3xl font-bold text-gray-800">Welcome to {{ room.name }}</h1>
+    <p class="text-gray-600">{{ room.description }}</p>
+    <!-- Messages Section -->
+    <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-full max-w-3xl">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Messages</h2>
+        {% for message in room_messages %}
+            <div class="bg-white p-3 rounded-lg shadow-sm mb-2 flex items-start space-x-3">
+                <img src="{{ message.sender.my_profile.photo.url }}"
+                     class="w-10 h-10 rounded-full">
+                <div class="w-full">
+                    <div class="flex justify-between items-center">
+                        <strong class="text-gray-800">{{ message.sender.username }}</strong>
+                        <small class="text-gray-500">{{ message.created_at | timesince }}</small> <!-- naturaltime -->
+                    </div>
+                    <p class="text-gray-700">{{ message.content }}</p>
+                    <!-- Delete Message Form -->
+                    <form method="POST" class="mt-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="delete_message">
+                        <input type="hidden" name="message_id" value="{{ message.id }}">
+                        <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Send Message Form -->
+    <form method="POST"
+          class="bg-blue-500 rounded-md p-4 mt-6 w-full max-w-lg shadow-md">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="send_message">
+        <h3 class="text-lg font-bold text-white mb-3">Send a Message</h3>
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="block text-white" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field|add_class:"p-2 rounded-md border border-gray-300 w-full" }}
+                {% if field.errors %}<span class="text-red-300 text-sm">{{ field.errors }}</span>{% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit"
+                class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Send</button>
+    </form>
+    <!-- Back Button -->
+    <a href="{{ request.META.HTTP_REFERER }}"
+       class="block text-center text-gray-600 mt-4 hover:underline">Go Back</a>
+{% endblock body %}

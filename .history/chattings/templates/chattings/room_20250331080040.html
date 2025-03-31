@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+    room
+{% endblock title %}
+{% block body %}
+    <h1>This is room room</h1>
+    <br>
+    <p>{{ room.description }}</p>
+    <div>
+        {% for message in room_messages %}
+            <p>
+                <strong>{{ message.user.username }}</strong>: {{ message.content }}
+                <small class="text-gray-500">{{ message.created_at| timesince }} ago</small>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock body %}
