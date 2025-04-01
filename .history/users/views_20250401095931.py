@@ -191,10 +191,5 @@ def edit_profile(request, id):
 
 def user_profile(request, pk):
     user = get_user_model().objects.get(id=pk)
-    user_profile = Profile.objects.get(user=user)
-    context = {
-        "user_profile": user_profile,
-        "user": user,
-    }
-    return render(request, "users/userdataProfile.html", context)
+    user_profile = Profile.objects.
     

@@ -196,5 +196,5 @@ def user_profile(request, pk):
         "user_profile": user_profile,
         "user": user,
     }
-    return render(request, "users/userdataProfile.html", context)
+    return render(request, "users/")
     

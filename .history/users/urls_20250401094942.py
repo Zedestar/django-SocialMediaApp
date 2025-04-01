@@ -57,7 +57,6 @@ urlpatterns = [
         name="signup_redirect",
     ),
     path("profile/", views.profile, name="profile"),
-    path("user_profile/<str:pk>/", views.user_profile, name="user_profile_data"),
     path("create_profile/", views.create_profile, name="create_profile"),
     path("edit_profile/<int:id>/", views.edit_profile, name="edit_profile"),
 ]

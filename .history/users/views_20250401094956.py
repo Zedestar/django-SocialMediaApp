@@ -141,9 +141,7 @@ def already_signup_redirect(request):
 def profile(request):
     user = request.user
     profile = Profile.objects.get(user=user)
-    context = {
-        "profile": profile
-        }
+    context = {"profile": profile}
     return render(request, "users/profile.html", context)
 
 
@@ -186,15 +184,3 @@ def edit_profile(request, id):
         "form": form,
     }
     return render(request, "users/edit_profile.html", context)
-
-
-
-def user_profile(request, pk):
-    user = get_user_model().objects.get(id=pk)
-    user_profile = Profile.objects.get(user=user)
-    context = {
-        "user_profile": user_profile,
-        "user": user,
-    }
-    return render(request, "users/userdataProfile.html", context)
-    
