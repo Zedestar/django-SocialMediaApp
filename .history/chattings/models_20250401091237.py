@@ -46,15 +46,3 @@ class DirectMessageRoom(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
     
-    def __str__(self):
-        return f"chatting roon for {self.sender} and {self.reciver}"
-    
-class DirectMessage(models.Model):
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sent_direct_messages", on_delete=models.CASCADE)
-    room = models.ForeignKey(DirectMessageRoom, related_name="direct_messages", on_delete=models.CASCADE)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"{self.sender.username} - {self.room} - {self.content[0:10]}"
-    
