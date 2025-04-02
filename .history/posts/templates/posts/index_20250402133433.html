@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Index{% endblock %}
+{% block body %}
+    {% if posts %}
+        <div class="w-full min-h-screen flex flex-col md:flex-row gap-4 p-4">
+            <!-- Posts Container -->
+            <div class="w-full md:w-3/4 flex justify-center">
+                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full p-2">
+                    {% for post in posts %}
+                        <a href="{% url 'post_item' post.slug %}"
+                           class="group w-72 md:w-80 bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl border border-gray-200 hover:border-blue-500">
+                            <div class="w-full h-52 overflow-hidden">
+                                <img src="{{ post.photo.url }}"
+                                     class="h-full w-full object-cover group-hover:opacity-90"
+                                     alt="Post Image">
+                            </div>
+                            <div class="p-3">
+                                <p class="text-lg font-bold text-gray-800">{{ post.title | truncatewords:6 }}</p>
+                                <p class="text-sm text-gray-600 mt-1">{{ post.caption | truncatewords:13 }}</p>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    {% if post.user.my_profile.photo %}
+                                        <img src="{{ post.user.my_profile.photo.url }}"
+                                             alt="User Profile"
+                                             class="rounded-full h-8 w-8 border border-gray-300">
+                                    {% else %}
+                                        <img src="{% static 'images/profile_pic.png' %}"
+                                             class="h-8 w-8 rounded-full border border-gray-300"
+                                             alt="Default Profile">
+                                    {% endif %}
+                                    <p class="text-sm font-semibold text-gray-700">{{ post.user.username }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Sidebar / Additional Content -->
+            <div class="w-full md:w-1/4 bg-gray-100 p-4 rounded-lg shadow-md flex items-center justify-center">
+                <p class="text-gray-600 font-semibold">This is the sidebar, it should take 1/4 of the space</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="flex justify-center items-center min-h-screen">
+            <h1 class="text-gray-500 text-xl font-semibold">No posts available yet</h1>
+        </div>
+    {% endif %}
+{% endblock %}

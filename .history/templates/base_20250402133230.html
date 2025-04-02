@@ -1,0 +1,81 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}LetsChart{% endblock %}
+        </title>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'tailwind/src_output.css' %}">
+        <link rel="icon"
+              type="image/x-icon"
+              href="{% static 'images/projectPic/favicon.ico' %}">
+    </head>
+    <body class="h-screen w-full flex flex-col overflow-hidden rounded-full">
+        <div class="bg-blue-500 flex justify-center items-center w-full fixed top-0 z-50 shadow-md py-1">
+            <div class="w-full flex justify-between items-center px-4">
+                <!-- Logo -->
+                <div class="text-2xl font-bold text-white">
+                    <a href="{% url 'index' %}" class="hover:text-gray-200 transition">LetsChart</a>
+                </div>
+                <!-- Create Post Link -->
+                <div class="font-bold hidden md:block">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Posts</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                        <a href="{% url 'create_post' %}"
+                           class="text-white hover:text-gray-200 transition">Create Post</a>
+                    {% endif %}
+                </div>
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.my_profile %}
+                            <a href="{% url 'profile' %}" class="flex items-center space-x-2">
+                                <img src="{{ request.user.my_profile.photo.url }}"
+                                     alt="Profile"
+                                     class="h-8 w-8 rounded-full border-2 border-white">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'create_profile' %}"
+                               class="font-bold text-red-600 hover:text-red-400 transition">Create Profile</a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}"
+                           class="text-white hover:text-gray-200 transition">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}"
+                           class="text-white hover:text-gray-200 transition">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if messages %}
+            <div class="fixed top-8 left-1/2 transform -translate-x-1/2 w-11/12 max-w-md z-50">
+                {% for message in messages %}
+                    <div class="flex justify-between items-center p-3 mb-2 rounded-md shadow-lg {% if 'error' in message.tags %}bg-red-100 text-red-800 border border-red-300{% elif 'success' in message.tags %}bg-green-100 text-green-800 border border-green-300{% elif 'warning' in message.tags %}bg-yellow-100 text-yellow-800 border border-yellow-300{% elif 'info' in message.tags %}bg-blue-100 text-blue-800 border border-blue-300{% endif %}">
+                        <span>{{ message }}</span>
+                        <button onclick="this.parentElement.remove()"
+                                class="ml-3 text-xl font-bold text-gray-600 hover:text-gray-900">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="flex-1 mt-8 overflow-y-auto">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>

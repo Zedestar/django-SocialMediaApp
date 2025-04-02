@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Logout{% endblock %}
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-gray-200">
+        <form method="POST"
+              autocomplete="off"
+              class="bg-blue-500 rounded-sm h-[50%] w-[34%] overflow-hidden">
+            <div class="w-full bg-black text-white flex justify-center items-center h-10">
+                <p class="text-xl">Logout</p>
+            </div>
+            {% csrf_token %}
+            <div class="flex flex-col justify-center items-center">
+                <div class="flex flex-col p-2">
+                    <p class="text-lg">Are sure you want to logout?</p>
+                </div>
+                <button type="submit" class="bg-black text-white p-1 rounded-sm my-3">Logout</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

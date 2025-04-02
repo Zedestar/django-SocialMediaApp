@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Logout - Luminary{% endblock %}
+{% block body %}
+    <div class="bg-gradient-to-br from-blue-200 to-blue-100 min-h-screen flex justify-center items-center py-8">
+        <form method="POST"
+              autocomplete="off"
+              class="bg-white rounded-xl shadow-2xl p-8 w-full md:w-[60%] lg:w-[35%]">
+            <div class="bg-blue-500 text-white p-4 rounded-t-xl">
+                <h1 class="text-2xl font-semibold text-center">Confirm Logout</h1>
+            </div>
+            {% csrf_token %}
+            <div class="mt-6 space-y-4">
+                <div class="text-center">
+                    <p class="text-lg text-gray-700">Are you sure you want to log out?</p>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
+                        Yes, Log Out
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'index' %}"
+                       class="text-blue-400 hover:text-blue-500 transition-colors duration-300">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

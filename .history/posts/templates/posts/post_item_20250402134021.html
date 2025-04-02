@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}{{ post_item.title|truncatewords:3 }} - Detail{% endblock %}
+{% block body %}
+    <div class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen py-8">
+        <div class="container mx-auto px-4 flex justify-center">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden w-full md:w-3/4 lg:w-2/3 my-8">
+                <div class="relative">
+                    <img src="{{ post_item.photo.url }}"
+                         alt="{{ post_item.title }}"
+                         class="w-full object-cover aspect-video">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-30"></div>
+                    <h1 class="absolute bottom-4 left-4 text-3xl font-bold text-white drop-shadow-lg">{{ post_item.title }}</h1>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            {% if post_item.user.my_profile.photo %}
+                                <img src="{{ post_item.user.my_profile.photo.url }}"
+                                     alt="User Profile"
+                                     class="w-10 h-10 rounded-full object-cover">
+                            {% else %}
+                                <img src="{% static 'images/profile_pic.png' %}"
+                                     alt="Default Profile"
+                                     class="w-10 h-10 rounded-full object-cover">
+                            {% endif %}
+                            <span class="font-semibold text-gray-800">{{ post_item.user.username }}</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center space-x-1">
+                                <span class="font-bold">{{ post_item.viewers }}</span>
+                                <img src="{% static 'images/viewers.png' %}" alt="Viewers" class="w-6 h-6">
+                            </div>
+                            <form action="{% url 'like_post' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                                <button type="submit" class="flex items-center space-x-1">
+                                    <span class="font-bold">{{ post_item.likes.count }}</span>
+                                    <img src="{% static 'images/like.png' %}" alt="Likes" class="w-6 h-6">
+                                </button>
+                            </form>
+                            <form action="{% url 'dislike_post' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                                <button type="submit" class="flex items-center space-x-1">
+                                    <span class="font-bold">{{ post_item.dislikes.count }}</span>
+                                    <img src="{% static 'images/dislike.png' %}"
+                                         alt="Dislikes"
+                                         class="w-6 h-6">
+                                </button>
+                            </form>
+                            <form action="{% url 'bookmark_post' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                                <button type="submit" class="flex items-center space-x-1">
+                                    <span class="font-bold">{{ post_item.bookmark.count }}</span>
+                                    <img src="{% static 'images/bookmark.png' %}"
+                                         alt="Bookmarks"
+                                         class="w-6 h-6">
+                                </button>
+                            </form>
+                            <div class="flex items-center space-x-1">
+                                <span class="font-bold">10</span>
+                                <img src="{% static 'images/commet.png' %}" alt="Comments" class="w-6 h-6">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">{{ post_item.caption }}</p>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 w-full mb-4"
+                            onclick="showComment()">Add Comment</button>
+                    <form method="POST"
+                          autocomplete="off"
+                          id="comment-form"
+                          class="hidden bg-gray-100 rounded-lg p-4 mb-4">
+                        <div class="mb-4">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-2">Make a Comment</h2>
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                            {% for field in comment_form %}
+                                <div class="mb-2">{{ field | add_class:"w-full p-2 border rounded-md" }}</div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit"
+                                class="bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-300">
+                            Submit Comment
+                        </button>
+                    </form>
+                    {% if comments %}
+                        <div class="mt-6">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Comments</h2>
+                            <ul class="space-y-4">
+                                {% for comment in comments %}
+                                    <li class="bg-gray-100 rounded-lg p-4 {% if request.user == comment.user %}self-end bg-blue-100{% endif %}">
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            {% if comment.user.my_profile.photo %}
+                                                <img src="{{ comment.user.my_profile.photo.url }}"
+                                                     alt="User Profile"
+                                                     class="w-8 h-8 rounded-full object-cover">
+                                            {% else %}
+                                                <img src="{% static 'images/profile_pic.png' %}"
+                                                     alt="Default Profile"
+                                                     class="w-8 h-8 rounded-full object-cover">
+                                            {% endif %}
+                                            <span class="font-semibold">{{ comment.user.username }}</span>
+                                        </div>
+                                        <p class="text-gray-700">{{ comment.body }}</p>
+                                        <p class="text-sm text-gray-500 mt-1">{{ comment.created_at }}</p>
+                                        <form method="POST"
+                                              autocomplete="off"
+                                              id="replay-form-{{ comment.id }}"
+                                              class="hidden bg-gray-100 rounded-lg p-4 mt-4">
+                                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Reply</h3>
+                                            {% csrf_token %}
+                                            <input type="hidden" name="post_id" value="{{ post_item.id }}">
+                                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                            {% for field in replay_form %}
+                                                <div class="mb-2">{{ field | add_class:"w-full p-2 border rounded-md" }}</div>
+                                            {% endfor %}
+                                            <button type="submit"
+                                                    class="bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-300">
+                                                Submit Reply
+                                            </button>
+                                        </form>
+                                        <button onclick="showReplyForm('{{ comment.id }}')"
+                                                class="bg-black text-white py-2 px-4 rounded-lg mt-2 hover:bg-gray-800 transition-colors duration-300">
+                                            Reply
+                                        </button>
+                                        {% if comment.replays.exists %}
+                                            <ul class="mt-4 space-y-2">
+                                                {% for replay in comment.replays.all %}
+                                                    <li class="bg-gray-200 rounded-lg p-3 self-end">
+                                                        <div class="flex items-center space-x-2 mb-1">
+                                                            {% if replay.user.my_profile.photo %}
+                                                                <img src="{{ replay.user.my_profile.photo.url }}"
+                                                                     alt="User Profile"
+                                                                     class="w-7 h-7 rounded-full object-cover">
+                                                            {% else %}
+                                                                <img src="{% static 'images/profile_pic.png' %}"
+                                                                     alt="Default Profile"
+                                                                     class="w-7 h-7 rounded-full object-cover">
+                                                            {% endif %}
+                                                            <span class="font-semibold text-sm">{{ replay.user.username }}</span>
+                                                        </div>
+                                                        <p class="text-sm text-gray-700">{{ replay.body }}</p>
+                                                        <p class="text-xs text-gray-500">{{ replay.created_at }}</p>
+                                                    </li>
+                                                {% endfor %}
