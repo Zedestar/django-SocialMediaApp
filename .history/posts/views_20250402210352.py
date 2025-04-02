@@ -152,9 +152,9 @@ def bookmark_post(request):
 
 @login_required
 def my_posts(request):
-    my_posties = request.user.my_posts.all()
+    my_post = request.user.my_posts.all()
     context = {
-        "posts": my_posties
+        "posts": my_posts
     }
     return render(request, 'posts/my_post.html', context)
 

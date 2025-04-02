@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}index{% endblock %}
+{% block title %}my posts{% endblock %}
 {% block body %}
-    <div class="bg-gradient-to-br from-indigo-100 to-purple-100 min-h-screen py-8">
+    <div class="bg-gradient-to-br from-indigo-100 to-purple-100 min-h-screen py-1">
+        <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow-md border-b border-gray-200">
+            <a href="#"
+               class="text-blue-600 hover:text-blue-800 transition-colors duration-300 font-semibold">
+                <i class="fas fa-arrow-left mr-2"></i> Back
+            </a>
+            <p class="text-xl font-semibold text-gray-800">My Posts</p>
+        </div>
         {% if posts %}
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -38,16 +45,14 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <aside class="md:col-span-1 bg-white rounded-xl shadow-md p-6 sticky top-8 space-y-6">
+                    <!-- <aside class="md:col-span-1 bg-white rounded-xl shadow-md p-6 sticky top-8 space-y-6">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Posts</h3>
                             <ul class="flex overflow-x-auto space-x-4 pb-2">
                                 {% for recent_post in recent_posts %}
                                     <li class="flex-shrink-0 w-80">
                                         <a href="{% url 'post_item' recent_post.slug %}" class="block">
-                                            <img src="{{ recent_post.photo.url }}"
-                                                 alt="{{ recent_post.title }}"
-                                                 class="w-full h-48 rounded-lg object-cover mb-2">
+                                            <img src="{{ recent_post.photo.url }}" alt="{{ recent_post.title }}" class="w-full h-48 rounded-lg object-cover mb-2">
                                             <div class="p-2">
                                                 <h4 class="font-semibold text-gray-800 truncate">{{ recent_post.title }}</h4>
                                                 <p class="text-sm text-gray-500">{{ recent_post.created_at|timesince }} ago</p>
@@ -67,9 +72,7 @@
                                 {% for trending_post in trending_posts %}
                                     <li class="flex-shrink-0 w-80">
                                         <a href="{% url 'post_item' trending_post.slug %}" class="block">
-                                            <img src="{{ trending_post.photo.url }}"
-                                                 alt="{{ trending_post.title }}"
-                                                 class="w-full h-48 rounded-lg object-cover mb-2">
+                                            <img src="{{ trending_post.photo.url }}" alt="{{ trending_post.title }}" class="w-full h-48 rounded-lg object-cover mb-2">
                                             <div class="p-2">
                                                 <h4 class="font-semibold text-gray-800 truncate">{{ trending_post.title }}</h4>
                                                 <p class="text-sm text-gray-500">{{ trending_post.viewers.count }} Likes</p>
@@ -87,7 +90,7 @@
                             <p class="text-gray-500 text-xs text-center">Ad Space</p>
                             <div class="bg-gray-200 h-24 rounded-lg mt-2"></div>
                         </div>
-                    </aside>
+                    </aside> -->
                 </div>
             </div>
         {% else %}

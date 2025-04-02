@@ -152,9 +152,9 @@ def bookmark_post(request):
 
 @login_required
 def my_posts(request):
-    my_posties = request.user.my_posts.all()
+    my_post = request.user.my_posts.all()
     context = {
-        "posts": my_posties
+        "post": my_posts
     }
     return render(request, 'posts/my_post.html', context)
 
@@ -168,18 +168,10 @@ def my_liked_posts(request):
 
 
 @login_required
-def my_disliked_posts(request):
+def my_liked_posts(request):
     disliked_posts = Post.objects.filter(dislikes=request.user)
     context = {
         "posts" : disliked_posts
     }
-    return render(request, 'posts/disliked_posts.html', context)
-
-@login_required
-def my_bookmarked_posts(request):
-    disliked_posts = Post.objects.filter(bookmark=request.user)
-    context = {
-        "posts" : disliked_posts
-    }
-    return render(request, 'posts/my_bookmarks_post.html', context)
+    return render(request, 'posts/disliked_posts.html.html', context)
 
