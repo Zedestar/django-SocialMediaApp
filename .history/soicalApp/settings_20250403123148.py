@@ -25,10 +25,7 @@ SECRET_KEY = "django-insecure-8wv9@_&m+yi^$q040fn@&b79mas(dp97(g!us%$ti#kg35f+!)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "django-socialmediaapp-s2ky.onrender.com",
-    "127.0.0.1"
-    ]
+ALLOWED_HOSTS = ["django-socialmediaapp-s2ky.onrender.com"]
 
 # Application definition
 
@@ -87,7 +84,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "soicalApp.urls"
@@ -158,7 +154,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = "media"
