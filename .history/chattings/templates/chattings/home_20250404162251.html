@@ -86,7 +86,7 @@
                 {% for recent_message in recent_messages_activity %}
                     <li class="border-b pb-4">
                         <div class="flex items-center space-x-4">
-                            <img src="{{ recent_message.sender.my_profile.photo.url|default:'/static/images/projectPic/default_profile.jpg' }}"
+                            <img src="{{ recent_message.sender.my_profile.photo.url }}"
                                  alt="Profile Image"
                                  class="w-10 h-10 rounded-full border border-gray-300 shadow-sm">
                             <div class="flex-1">

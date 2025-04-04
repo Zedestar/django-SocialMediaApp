@@ -38,7 +38,7 @@
                            class="text-white hover:text-gray-200 transition-colors duration-300">Disliked posts</a>
                         <a href="{% url 'chattings_home' %}"
                            class="text-white hover:text-gray-200 transition-colors duration-300">Chattings rooms</a>
-                        <a href="#"
+                        <a href="{% url 'inbox_room' request.user.reciver_messages.first | request.user.sender_messages.first %}"
                            class="text-white hover:text-gray-200 transition-colors duration-300">Chats</a>
                     {% endif %}
                 </nav>

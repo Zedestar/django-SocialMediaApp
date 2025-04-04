@@ -38,8 +38,14 @@
                            class="text-white hover:text-gray-200 transition-colors duration-300">Disliked posts</a>
                         <a href="{% url 'chattings_home' %}"
                            class="text-white hover:text-gray-200 transition-colors duration-300">Chattings rooms</a>
-                        <a href="#"
-                           class="text-white hover:text-gray-200 transition-colors duration-300">Chats</a>
+                        {% if request.user.sender_messages.any %}
+                            <p>You have sent messages!</p>
+                            <ul>
+                                {% for message in request.user.sender_messages %}<li>{{ message.content }}</li>{% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>You haven't sent any messages yet.</p>
+                        {% endif %}
                     {% endif %}
                 </nav>
                 <div class="flex items-center space-x-4">
