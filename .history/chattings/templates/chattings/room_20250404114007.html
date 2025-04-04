@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
-{% load static %}
 {% block title %}
     Chat Room
 {% endblock title %}
@@ -103,12 +102,9 @@
                             {% else %}
                                 <span href="{% url 'user_profile_data' participant.id %}"
                                       class="flex items-center gap-2 w-full">
-                                    <img src="{% static 'images/projectPic/default_profile.jpg' %}"
+                                    <img src="{% static 'images/default_profile' %}"
                                          class="w-8 h-8 rounded-full">
-                                    <span class="text-gray-800 text-sm md:text-sm truncate">
-                                        <p>{{ participant.username }} has no</p>
-                                        <p>profile can't sent message</p>
-                                    </span>
+                                    <span class="text-gray-800 font-medium text-sm md:text-base truncate">{{ participant.username }}</span>
                                 </span>
                             {% endif %}
                         </li>

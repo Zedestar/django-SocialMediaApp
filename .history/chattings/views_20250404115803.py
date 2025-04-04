@@ -183,7 +183,7 @@ def user_profile(request, pk):
 
 def the_inbox_room(request, pk):
     inbox_room = DirectMessageRoom.objects.get(id=pk)
-    inbox_messages = DirectMessage.objects.filter(room=inbox_room).order_by(F("created_at").desc())
+    inbox_messages = DirectMessage.objects.filter(room=inbox_room).order_by(F("created_at"))
     my_charts_room = DirectMessageRoom.objects.filter(
         Q(sender=request.user) | 
         Q(reciver=request.user)

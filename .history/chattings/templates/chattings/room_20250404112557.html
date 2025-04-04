@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
-{% load static %}
 {% block title %}
     Chat Room
 {% endblock title %}
@@ -93,24 +92,21 @@
                     {% for participant in room.participants.all %}
                         <li class="flex items-center gap-2 p-2 bg-gray-100 hover:bg-gray-200 transition rounded-lg">
                             {% if participant.my_profile %}
-                                <a href="{% url 'user_profile_data' participant.id %}"
-                                   class="flex items-center gap-2 w-full">
-                                    <img src="{{ participant.my_profile.photo.url }}"
-                                         alt="Profile Picture"
-                                         class="w-8 h-8 rounded-full">
-                                    <span class="text-gray-800 font-medium text-sm md:text-base truncate">{{ participant.username }}</span>
-                                </a>
+                                <img src="{{ participant.my_profile.photo.url }}"
+                                     alt="Profile Picture"
+                                     class="w-8 h-8 rounded-full">
                             {% else %}
-                                <span href="{% url 'user_profile_data' participant.id %}"
-                                      class="flex items-center gap-2 w-full">
-                                    <img src="{% static 'images/projectPic/default_profile.jpg' %}"
-                                         class="w-8 h-8 rounded-full">
-                                    <span class="text-gray-800 text-sm md:text-sm truncate">
-                                        <p>{{ participant.username }} has no</p>
-                                        <p>profile can't sent message</p>
-                                    </span>
-                                </span>
+                                <img src="{% static 'default_profile.png' %}"
+                                     alt="Default Profile Picture"
+                                     class="w-8 h-8 rounded-full">
                             {% endif %}
+                            <a href="{% url 'user_profile_data' participant.id %}"
+                               class="flex items-center gap-2 w-full">
+                                <img src="{{ participant.my_profile.photo.url }}"
+                                     alt="Profile Picture"
+                                     class="w-8 h-8 rounded-full">
+                                <span class="text-gray-800 font-medium text-sm md:text-base truncate">{{ participant.username }}</span>
+                            </a>
                         </li>
                     {% empty %}
                         <p class="text-gray-500 text-center text-sm md:text-base">No participants yet.</p>
