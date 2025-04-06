@@ -112,11 +112,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "soicalApp.wsgi.application"
 ASGI_APPLICATION = "socialApp.asgi.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    }
-}
+
 
 
 
