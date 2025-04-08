@@ -2,6 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from asgiref.sync import sync_to_async
 from .models import Messages, Room
+# from django.conf import settings
 from django.contrib.auth import get_user_model
 
 # - Creating the consumers
@@ -33,7 +34,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = data['message']
         username = data['username']
         room = data['room_name']
-
+        profile_url = data.get('profile_url')
         
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -42,6 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'message': message,
                 'username': username,
                 'room_name':room,
+                'profile_url': profile_url
             }
         )
         
@@ -51,11 +53,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
         username = event['username']
         room_name = event['room_name']
+        profile_url = event['profile_url']
         
         await self.send(text_data=json.dumps({
             'message': message,
             'username': username,
             'room_name': room_name,
+            'profile_url': profile_url,
         }))
         
         

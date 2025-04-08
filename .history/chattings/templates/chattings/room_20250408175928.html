@@ -34,8 +34,7 @@
                 <p class="text-gray-600 text-sm md:text-base border-b mb-2 pb-2">{{ room.description }}</p>
                 <!-- Messages -->
                 <div class="bg-gray-100 p-3 md:p-4 rounded-lg shadow-sm flex-grow overflow-y-auto mb-4"
-                     style="max-height: 60vh"
-                     id="message-container">
+                     style="max-height: 60vh">
                     <h2 class="text-md md:text-lg font-semibold text-gray-700 mb-3">Messages</h2>
                     {% for message in room_messages %}
                         <div class="flex items-start gap-2 md:gap-3 bg-white p-2 md:p-3 rounded-lg shadow mb-3 w-full md:w-2/3">
@@ -133,7 +132,8 @@
     <script>
         const chatRoomName = JSON.parse(document.getElementById('json_chatroomname').textContent);
         const username = JSON.parse(document.getElementById('username').textContent);
-        const userProfilePhoto = JSON.parse(document.getElementById('user_profile_photo').textContent);
+        const profile_pic = JSON.parse(document.getElementById('user_profile_photo').textContent);
+        console.log("this is profile pic url", profile_pic);
         let messageFromSocket = [];
 
 
@@ -148,7 +148,7 @@
             const data = JSON.parse(e.data);
             const htmlMessage = data.message;
             const messageSender = data.username;
-            
+            const messageProfilePic = data.profile_pic;
            
             messageFromSocket.push({
                 'sender': messageSender,
@@ -156,41 +156,22 @@
                 'created_at': new Date().toISOString(),
             });
 
-            displayMessages(messageFromSocket, userProfilePhoto);
-
-            scrollToBottom();  // Scroll to the bottom after displaying messages
-
+            displayMessages(messageFromSocket);
         };
 
-        function timeSince(dateString) {
-            const now = new Date();
-            const past = new Date(dateString);
-            const seconds = Math.floor((now - past) / 1000);
-        
-            if (seconds < 60) return 'just now';
-            const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-            const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            const days = Math.floor(hours / 24);
-            return `${days} day${days > 1 ? 's' : ''} ago`;
-        }
-
-        function displayMessages(messages, user_profile_photo) {
+        function displayMessages(messages) {
             const messageContainer = document.getElementById('html-message');
             messageContainer.innerHTML = '';  // Clear any existing messages
         
             // Iterate over the combined messages and append them to the container
             messages.forEach(msg => {
-                const timeAgo = timeSince(msg.created_at);
-
                 messageContainer.innerHTML += `
                     <div class="flex items-start gap-2 md:gap-3 bg-white p-2 md:p-3 rounded-lg shadow mb-3 w-full md:w-2/3">
-                        <img src="${ user_profile_photo }"" alt="Profile Picture" class="w-8 h-8 md:w-10 md:h-10 rounded-full">
+                        <img src="" alt="Profile Picture" class="w-8 h-8 md:w-10 md:h-10 rounded-full">
                         <div class="flex-1">
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
                                 <strong class="text-gray-800 text-sm md:text-base">${msg.sender}</strong>
-                                <small class="text-gray-500 text-xs md:text-sm">${timeAgo}</small>
+                                <small class="text-gray-500 text-xs md:text-sm">${msg.created_at}</small>
                             </div>
                             <p class="text-gray-700 mt-1 text-sm md:text-base">${msg.message}</p>
                         </div>
@@ -215,6 +196,7 @@
                 'message': message,
                 'username': username,
                 'room_name': chatRoomName,
+                'profile_pic': profile_pic
             }));
 
             console.log(message);
@@ -223,15 +205,5 @@
 
             messageInput.value = '';
         }
-
-        function scrollToBottom() {
-            const messageContainer = document.getElementById('message-container');
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        window.addEventListener('DOMContentLoaded', function () {
-            scrollToBottom();
-        });
-        
     </script>
 {% endblock body %}

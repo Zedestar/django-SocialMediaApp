@@ -2,6 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from asgiref.sync import sync_to_async
 from .models import Messages, Room
+# from django.conf import settings
 from django.contrib.auth import get_user_model
 
 # - Creating the consumers
