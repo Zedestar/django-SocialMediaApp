@@ -136,9 +136,8 @@
             `ws://${window.location.host}/ws/room_chat/${chatRoomName}/`
         );
         chatSocket.onmessage = function(e){
-            const data = JSON.parse(e.data);
-            const htmlMessage = data.message;
-            const messageSender = data.username;
+            let htmlMessage = e.data.message;
+            let messageSender = e.data.username;
             document.getElementById('html-message').innerHTML += `${messageSender}: ${htmlMessage} <br>`;
             console.log("the message is on process to sent", e.data)
         }
