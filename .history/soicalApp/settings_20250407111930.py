@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
     "chattings.apps.ChattingsConfig",
-    "daphne",
     "channels",
     "widget_tweaks",
     "django.contrib.admin",

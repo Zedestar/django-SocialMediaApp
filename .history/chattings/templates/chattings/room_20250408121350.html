@@ -126,14 +126,8 @@
         </div>
     </div>
     {{ room.name|json_script:"json_chatroomname" }}
-    {{ request.user.username|json_script:"username" }}
     <script>
         const chatRoomName = JSON.parse(document.getElementById('json_chatroomname').textContent);
-        const username = JSON.parse(document.getElementById('username').textContent);
-
-
-
-
         const chatSocket = new WebSocket(
             `ws://${window.location.host}/ws/room_chat/${chatRoomName}/`
         );
@@ -142,26 +136,13 @@
         }
 
         chatSocket.onclose = function(e){
-            console.error('The websocket is closeing');
+            console.error('Chat socket closed unexpectedly');
         }
-
-        
         document.getElementById('send-button').onclick = function(e){
             e.preventDefault();
             const messageInput = document.getElementById('message-input');
             const message = messageInput.value;
-            
-
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': username,
-                'room_name': chatRoomName,
-            }));
-
-            console.log(message);
-            console.log(username);
-            console.log(chatRoomName);
-
+            console.log(message)
             messageInput.value = '';
         }
     </script>

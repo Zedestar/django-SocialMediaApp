@@ -142,7 +142,7 @@
         }
 
         chatSocket.onclose = function(e){
-            console.error('The websocket is closeing');
+            console.error('Chat socket closed unexpectedly');
         }
 
         
@@ -150,18 +150,7 @@
             e.preventDefault();
             const messageInput = document.getElementById('message-input');
             const message = messageInput.value;
-            
-
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': username,
-                'room_name': chatRoomName,
-            }));
-
-            console.log(message);
-            console.log(username);
-            console.log(chatRoomName);
-
+            console.log(message)
             messageInput.value = '';
         }
     </script>

@@ -69,7 +69,7 @@
                 <form method="POST"
                       class="mt-auto bg-gray-300 rounded-lg shadow-md p-2 md:p-3">
                     {% csrf_token %}
-                    <!-- <input type="hidden" name="form_type" value="message_form"> hidding this to avoid triggering the save message to the backend -->
+                    <input type="hidden" name="form_type" value="message_form">
                     <div class="flex items-center gap-2 w-full">
                         <div class="flex-grow">
                             {% for field in form %}
@@ -79,13 +79,12 @@
                                 </div> -->
                                 <input type="text"
                                        name=""
-                                       id="message-input"
+                                       id=""
                                        placeholder="Type your message...."
                                        class="w-full p-2 md:p-2 rounded-lg bprder border-gray-300 ">
                             {% endfor %}
                         </div>
                         <button type="submit"
-                                id="send-button"
                                 class="bg-blue-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-blue-600 text-sm md:text-base whitespace-nowrap">
                             Send
                         </button>
@@ -113,7 +112,7 @@
                                          class="w-8 h-8 rounded-full">
                                     <span class="text-gray-800 text-sm md:text-sm truncate">
                                         <p>{{ participant.username }} has no</p>
-                                        <p id="">profile can't sent message</p>
+                                        <p>profile can't sent message</p>
                                     </span>
                                 </span>
                             {% endif %}
@@ -126,14 +125,8 @@
         </div>
     </div>
     {{ room.name|json_script:"json_chatroomname" }}
-    {{ request.user.username|json_script:"username" }}
     <script>
         const chatRoomName = JSON.parse(document.getElementById('json_chatroomname').textContent);
-        const username = JSON.parse(document.getElementById('username').textContent);
-
-
-
-
         const chatSocket = new WebSocket(
             `ws://${window.location.host}/ws/room_chat/${chatRoomName}/`
         );
@@ -142,27 +135,7 @@
         }
 
         chatSocket.onclose = function(e){
-            console.error('The websocket is closeing');
-        }
-
-        
-        document.getElementById('send-button').onclick = function(e){
-            e.preventDefault();
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput.value;
-            
-
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': username,
-                'room_name': chatRoomName,
-            }));
-
-            console.log(message);
-            console.log(username);
-            console.log(chatRoomName);
-
-            messageInput.value = '';
+            console.error('Chat socket closed unexpectedly');
         }
     </script>
 {% endblock body %}

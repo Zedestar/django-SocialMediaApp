@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
     "chattings.apps.ChattingsConfig",
-    "daphne",
     "channels",
     "widget_tweaks",
     "django.contrib.admin",
@@ -111,7 +110,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "soicalApp.wsgi.application"
-ASGI_APPLICATION = "soicalApp.asgi.application"
+ASGI_APPLICATION = "socialApp.asgi.application"
 
 CHANNEL_LAYERS = {
     'default': {
