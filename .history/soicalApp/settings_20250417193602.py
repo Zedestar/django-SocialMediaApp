@@ -26,8 +26,8 @@ SECRET_KEY = "django-insecure-8wv9@_&m+yi^$q040fn@&b79mas(dp97(g!us%$ti#kg35f+!)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # "django-socialmediaapp-s2ky.onrender.com",
-    # "127.0.0.1"
+    "django-socialmediaapp-s2ky.onrender.com",
+    "127.0.0.1"
     "*"
     ]
 
