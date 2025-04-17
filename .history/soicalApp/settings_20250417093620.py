@@ -78,7 +78,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 GRAPHENE = {
-    'SCHEMA':'soicalApp.schema.schema',
+    'SCHEMA':'soicalApp.schema.schema'
 }
 
 RECAPTCHA_PUBLIC_KEY = "6Lcm_mQqAAAAACFkM2Xu_JShOe5UZpXP1Md09nKK"

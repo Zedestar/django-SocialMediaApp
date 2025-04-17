@@ -11,7 +11,7 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("accounts/", include("allauth.urls")),
     path("chattings/", include("chattings.urls")),
-    path("graphql/", GraphQLView.as_view(graphiql=True)),
+    path("graphql/", GraphQLView.as_view()),
 ]
 
 # urlpatterns += static(settings.STATIC_URL, document.root = settings.)
