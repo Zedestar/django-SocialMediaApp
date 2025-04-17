@@ -197,7 +197,3 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = "mmagota2@gmail.com"
 EMAIL_HOST_PASSWORD = "qfyd bxvo eqfc euim"
 PASSWORD_RESET_TIMEOUT = 14400
-
-
-
-CORS_ALLOW_ALL_ORIGINS = True

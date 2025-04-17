@@ -96,8 +96,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = "soicalApp.urls"
@@ -197,7 +195,3 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = "mmagota2@gmail.com"
 EMAIL_HOST_PASSWORD = "qfyd bxvo eqfc euim"
 PASSWORD_RESET_TIMEOUT = 14400
-
-
-
-CORS_ALLOW_ALL_ORIGINS = True
