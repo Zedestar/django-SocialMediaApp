@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
     "chattings.apps.ChattingsConfig",
+    "chicken_disease_detection.apps.ChickenDiseaseDetectionConfig",
     "daphne",
     "channels",
     "widget_tweaks",

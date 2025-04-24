@@ -12,6 +12,7 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("accounts/", include("allauth.urls")),
     path("chattings/", include("chattings.urls")),
+    path("chicken/", include("chicken_disease_detection.urls")),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
 

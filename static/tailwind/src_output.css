@@ -1779,6 +1779,10 @@ video {
   transition-duration: 300ms;
 }
 
+.duration-200 {
+  transition-duration: 200ms;
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -1881,6 +1885,10 @@ video {
 
 .hover\:underline:hover {
   text-decoration-line: underline;
+}
+
+.hover\:opacity-80:hover {
+  opacity: 0.8;
 }
 
 .hover\:shadow-2xl:hover {
