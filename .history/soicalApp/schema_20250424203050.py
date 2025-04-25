@@ -15,4 +15,4 @@ class Mutation(chicken_schema.Mutation):
     
     
     
-schema = graphene.Schema(query=Query, mutation=Mutation)
+schema = graphene.Schema(query=Query)

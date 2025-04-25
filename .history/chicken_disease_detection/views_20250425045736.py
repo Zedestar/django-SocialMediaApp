@@ -23,7 +23,10 @@ def taking_sample(request):
             # Making the prediction
             prediction = model.predict(img_array)
             predicted_result = np.argmax(prediction, axis=1)
-            confidence_level = prediction[0][predicted_result]
+            confidence_level = 0
+            for item in prediction:
+                if item > confidence_level:
+                    confidence_level = item
             predicted_label = class_labels[predicted_result[0]]
             print(f"The predicted data is {predicted_label}")
             print(f"The predicted data is {confidence_level}")

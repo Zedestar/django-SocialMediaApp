@@ -1,6 +1,6 @@
 import graphene
 from graphene_file_upload.scalars import Upload
-from tensorflow.keras.preprocessing import image
+from tensoflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 import numpy as np
 from io import BytesIO
@@ -29,6 +29,3 @@ class PredictDisease(graphene.Mutation):
         predicted_label = class_labels[predicted_index]
 
         return PredictDisease(prediction=predicted_label)
-    
-class Mutation(graphene.ObjectType):
-    predict_disease = PredictDisease.Field()

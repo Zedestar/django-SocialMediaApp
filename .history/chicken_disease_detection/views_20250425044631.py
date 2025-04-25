@@ -23,10 +23,9 @@ def taking_sample(request):
             # Making the prediction
             prediction = model.predict(img_array)
             predicted_result = np.argmax(prediction, axis=1)
-            confidence_level = prediction[0][predicted_result]
             predicted_label = class_labels[predicted_result[0]]
             print(f"The predicted data is {predicted_label}")
-            print(f"The predicted data is {confidence_level}")
+            print(f"The predicted data is {predicted_result}")
         
         
     return render(request, "chicken_disease_detection/uploading_chicken_sample.html")

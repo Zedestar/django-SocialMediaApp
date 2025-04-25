@@ -9,10 +9,9 @@ class Query(post_schema.Query, graphene.ObjectType):
     title = graphene.String(default_value="The Web and mobile developer")
     
     
-class Mutation(chicken_schema.Mutation):
-    pass
+class Mutation():
     
     
     
     
-schema = graphene.Schema(query=Query, mutation=Mutation)
+schema = graphene.Schema(query=Query)

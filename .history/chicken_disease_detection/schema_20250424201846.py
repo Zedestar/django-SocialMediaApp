@@ -1,6 +1,6 @@
 import graphene
 from graphene_file_upload.scalars import Upload
-from tensorflow.keras.preprocessing import image
+from tensoflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 import numpy as np
 from io import BytesIO
@@ -11,7 +11,7 @@ MODEL_PATH = settings.BASE_DIR / 'ml_model' / 'chickenDiseaseDitectionVersion1.h
 model = load_model(MODEL_PATH)
 class_labels = ['COCCIDIOSIS', 'HEALTH', 'NEWCASTLEDISEASE', 'SALMONELLA']
 
-class PredictDisease(graphene.Mutation):
+class PredictedDisease(graphene.Mutation):
     class Arguments:
         sample_image = Upload(required=True)
         
@@ -29,6 +29,3 @@ class PredictDisease(graphene.Mutation):
         predicted_label = class_labels[predicted_index]
 
         return PredictDisease(prediction=predicted_label)
-    
-class Mutation(graphene.ObjectType):
-    predict_disease = PredictDisease.Field()
