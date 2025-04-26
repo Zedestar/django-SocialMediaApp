@@ -9,7 +9,7 @@ from PIL import Image
 # Create your views here.
 
 
-MODEL_PATH = settings.BASE_DIR / 'ml_model' / 'chickenDiseaseDitectionVersion2.h5'
+MODEL_PATH = settings.BASE_DIR / 'ml_model' / 'chicken_disease_model.h5'
 model = load_model(MODEL_PATH)
 class_labels = ['COCCIDIOSIS', 'HEALTH', 'NEWCASTLEDISEASE', 'SALMONELLA']
 
@@ -27,6 +27,13 @@ def taking_sample(request):
             predicted_label = class_labels[predicted_result[0]]
             print(f"The predicted data is {predicted_label}")
             print(f"The predicted data is {confidence_level}")
+            
+            context = {
+                "prediction_label" : predicted_label,
+                "confidence_level" : confidence_level,
+                "prediction" : prediction
+            }
+        return render(request, "chicken_disease_detection/show_sample_result.html", context=context)
         
         
     return render(request, "chicken_disease_detection/uploading_chicken_sample.html")

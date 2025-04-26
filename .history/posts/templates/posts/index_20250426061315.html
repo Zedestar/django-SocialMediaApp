@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}index{% endblock %}
+{% block body %}
+    <div class="bg-gradient-to-br from-indigo-100 to-purple-100 min-h-screen py-4">
+        {% if posts %}
+            <!-- Creating the sesrch form -->
+            <div class="w-full bg-rose-600">
+                <form action="" method="GET" class="flex flex-col md:flex-row mx-auto">
+                    <input type="text"
+                           name="search"
+                           id=""
+                           placeholder="Write any related description to search post"
+                           class="w-auto rounded-md focus:border-blue-200 hover:border-gray-200">
+                    <button type="submit" class="mx-1 p-2 bg-blue-500">Search</button>
+                </form>
+            </div>
+            <!-- Creating the search form -->
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="md:col-span-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {% for post in posts %}
+                                <a href="{% url 'post_item' post.slug %}"
+                                   class="group block bg-white rounded-xl shadow-2xl overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl relative">
+                                    <div class="relative h-60 overflow-hidden">
+                                        <img src="{{ post.photo.url }}"
+                                             class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                                             alt="Post Image">
+                                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                                        </div>
+                                    </div>
+                                    <div class="p-6">
+                                        <h2 class="text-xl font-semibold text-gray-900 mb-2 truncate">{{ post.title }}</h2>
+                                        <p class="text-gray-600 text-sm line-clamp-2">{{ post.caption }}</p>
+                                        <div class="mt-4 flex items-center space-x-3">
+                                            {% if post.user.my_profile.photo %}
+                                                <img src="{{ post.user.my_profile.photo.url }}"
+                                                     alt="User Profile"
+                                                     class="w-10 h-10 rounded-full border border-gray-300 object-cover">
+                                            {% else %}
+                                                <img src="{% static 'images/profile_pic.png' %}"
+                                                     class="w-10 h-10 rounded-full border border-gray-300 object-cover"
+                                                     alt="Default Profile">
+                                            {% endif %}
+                                            <span class="text-sm font-medium text-gray-800">{{ post.user.username }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <aside class="md:col-span-1 bg-white rounded-xl shadow-md p-6 sticky top-8 space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Posts</h3>
+                            <ul class="flex overflow-x-auto space-x-4 pb-2">
+                                {% for recent_post in recent_posts %}
+                                    <li class="flex-shrink-0 w-80">
+                                        <a href="{% url 'post_item' recent_post.slug %}" class="block">
+                                            <img src="{{ recent_post.photo.url }}"
+                                                 alt="{{ recent_post.title }}"
+                                                 class="w-full h-48 rounded-lg object-cover mb-2">
+                                            <div class="p-2">
+                                                <h4 class="font-semibold text-gray-800 truncate">{{ recent_post.title }}</h4>
+                                                <p class="text-sm text-gray-500">{{ recent_post.created_at|timesince }} ago</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% empty %}
+                                    <li>
+                                        <p class="text-sm text-gray-600">No recent posts.</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Trending Posts</h3>
+                            <ul class="flex overflow-x-auto space-x-4 pb-2">
+                                {% for trending_post in trending_posts %}
+                                    <li class="flex-shrink-0 w-80">
+                                        <a href="{% url 'post_item' trending_post.slug %}" class="block">
+                                            <img src="{{ trending_post.photo.url }}"
+                                                 alt="{{ trending_post.title }}"
+                                                 class="w-full h-48 rounded-lg object-cover mb-2">
+                                            <div class="p-2">
+                                                <h4 class="font-semibold text-gray-800 truncate">{{ trending_post.title }}</h4>
+                                                <p class="text-sm text-gray-500">{{ trending_post.viewers.count }} Likes</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% empty %}
+                                    <li>
+                                        <p class="text-sm text-gray-600">No trending posts.</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="text-gray-500 text-xs text-center">Ad Space</p>
+                            <div class="bg-gray-200 h-24 rounded-lg mt-2"></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        {% else %}
+            <div class="flex justify-center items-center min-h-screen">
+                <div class="text-center">
+                    <h1 class="text-3xl font-semibold text-gray-700 mb-4">No Posts Yet</h1>
+                    <p class="text-gray-500">Stay tuned, amazing content is on its way!</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

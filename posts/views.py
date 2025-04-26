@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post, Comment, Replay
 from .forms import PostForm, CommentForm, ReplayForm
 from django.contrib import messages
-from django.db.models import F
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -13,15 +13,17 @@ def index(request):
     posts = Post.objects.all().order_by("?")
     recent_posts = Post.objects.all().order_by("-created_at")[:5]
     trending_posts = Post.objects.all().order_by("-viewers")[:5]
+    no_post_found = ""
     if request.method == 'GET':
         post_filter_query = request.GET.get('q')
         post_search_Query = request.GET.get('search')
         if post_search_Query:
             posts = Post.objects.filter(
                 Q(title__icontains=post_search_Query) |
-                Q(description__icontains=post_search_Query) |
+                Q(caption__icontains=post_search_Query) |
                 Q(user__username__icontains=post_search_Query)
             )
+            no_post_found = "No matching post found"
         elif post_filter_query:
             posts = Post.objects.filter(category__name__icontains=post_filter_query)
         else:
@@ -30,6 +32,7 @@ def index(request):
         "posts": posts,
         "recent_posts": recent_posts,
         "trending_posts": trending_posts,
+        "no_post_found" : no_post_found,
     }
     return render(request, "posts/index.html", context)
 
