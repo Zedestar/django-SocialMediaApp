@@ -88,9 +88,7 @@ class PredictDiseaseAPIView(APIView):
         predicted_label = class_labels[predicted_index]
         confidence_level = float(prediction[0][predicted_index])
         
-        print(f"The predicted data is {predicted_label}")
-        print(f"The predicted data is {confidence_level}")
-        print(f"The predicted data is {prediction}")
+        print(f"THis is the result from the backend {predicted_label}")
 
         # Save the sample into the database
         sample = ChickenDiseaseSample.objects.create(

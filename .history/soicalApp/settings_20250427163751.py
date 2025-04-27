@@ -131,14 +131,6 @@ CHANNEL_LAYERS = {
 }
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
-}
-
-
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

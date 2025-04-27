@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
-from chicken_disease_detection.views import PredictDiseaseAPIView
+from chicken_disease_detection.views import ch
 
 
 urlpatterns = [
@@ -15,7 +15,6 @@ urlpatterns = [
     path("chattings/", include("chattings.urls")),
     path("chicken/", include("chicken_disease_detection.urls")),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    path("predict/", csrf_exempt(PredictDiseaseAPIView.as_view()), name="predict_disease"),
 ]
 
 # urlpatterns += static(settings.STATIC_URL, document.root = settings.)

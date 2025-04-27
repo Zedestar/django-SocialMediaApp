@@ -15,7 +15,7 @@ urlpatterns = [
     path("chattings/", include("chattings.urls")),
     path("chicken/", include("chicken_disease_detection.urls")),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    path("predict/", csrf_exempt(PredictDiseaseAPIView.as_view()), name="predict_disease"),
+    path("predict/", PredictDiseaseAPIView.as_view(), )
 ]
 
 # urlpatterns += static(settings.STATIC_URL, document.root = settings.)

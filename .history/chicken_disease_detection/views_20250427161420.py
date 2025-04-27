@@ -79,18 +79,12 @@ class PredictDiseaseAPIView(APIView):
         img = image.load_img(BytesIO(sample_image.read()), target_size=(224, 224))
         img_array = image.img_to_array(img) / 255.0
         img_array = np.expand_dims(img_array, axis=0)
-        
-        print("UNTIL THE CODE HAS RUNNNED")
 
         # Make prediction
         prediction = model.predict(img_array)
         predicted_index = np.argmax(prediction, axis=1)[0]
         predicted_label = class_labels[predicted_index]
         confidence_level = float(prediction[0][predicted_index])
-        
-        print(f"The predicted data is {predicted_label}")
-        print(f"The predicted data is {confidence_level}")
-        print(f"The predicted data is {prediction}")
 
         # Save the sample into the database
         sample = ChickenDiseaseSample.objects.create(
